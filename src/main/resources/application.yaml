@@ -7,6 +7,8 @@ security:
     jwt:
         token:
             secret-key: v9y$B&E)H@McQfTjWnZr4u7w!z%C*F-J
-            expire-length: 300000
+            expire-length: 36000000
+            token-prefix: Bearer 
+            header: Authorization
 server:
     port: 8080

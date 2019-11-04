@@ -1,12 +1,18 @@
-{
-    "properties": [
-        {
-            "name": "security.jwt.token.secret-key",
-            "type": "java.lang.String"
-        },
-        {
-            "name": "security.jwt.token.expire-length",
-            "type": "java.lang.Integer"
-        }
-    ]
-}
+{"properties": [
+  {
+    "name": "security.jwt.token.secret-key",
+    "type": "java.lang.String"
+  },
+  {
+    "name": "security.jwt.token.expire-length",
+    "type": "java.lang.Integer"
+  },
+  {
+    "name": "security.jwt.token.token-prefix",
+    "type": "java.lang.String"
+  },
+  {
+    "name": "security.jwt.token.header",
+    "type": "java.lang.String"
+  }
+]}

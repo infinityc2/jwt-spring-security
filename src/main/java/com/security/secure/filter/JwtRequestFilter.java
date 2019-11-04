@@ -11,6 +11,7 @@ import com.security.secure.config.JwtUtil;
 import com.security.secure.config.MemberDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,14 +25,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired private MemberDetailsService memberDetailsService;
     @Autowired private JwtUtil jwtUtil;
 
+    @Value("${security.jwt.token.token-prefix}")
+    private String TOKEN_PREFIX;
+
+    @Value("${security.jwt.token.header}")
+    private String HEADER;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-                final String authorizationHeader = request.getHeader("Authorization");
+                final String authorizationHeader = request.getHeader(HEADER);
                 String username = null;
                 String jwt = null;
 
-                if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
                     jwt = authorizationHeader.substring(7);
                     username = jwtUtil.extractUsername(jwt);
                 }
