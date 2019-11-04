@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class MemberController {
     @Autowired private AuthenticationManager authenticationManager;
     @Autowired private MemberDetailsService memberDetailsService;
     @Autowired private JwtUtil jwtTokenUtil;
+    @Autowired private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/member")
     public Collection<Member> getAllMember() {
@@ -51,7 +53,7 @@ public class MemberController {
         Member newMember = new Member();
         Optional<Role> role = roleRepository.findById(Long.valueOf(body.get("role").toString()));
         newMember.setUsername(body.get("username").toString());
-        newMember.setPassword(body.get("password").toString());
+        newMember.setPassword(passwordEncoder.encode(body.get("password").toString()));
         newMember.setRole(role.get());
         return memberRepository.save(newMember);
     }
@@ -68,21 +70,6 @@ public class MemberController {
         Map<String, Object> authenticationResponse = new HashMap<>();
         authenticationResponse.put("jwt", jwt);
         return ResponseEntity.ok(authenticationResponse);
-    }
-
-    @PutMapping("/member/{id}")
-    public Member changeMember(@PathVariable Long id, @RequestBody Map<String, Object> body) {
-        Member member = memberRepository.findById(id).get();
-        String password = member.getPassword();
-        String prevPassword = body.get("password").toString();
-        String newPassword = body.get("new-password").toString();
-
-        if (!password.equals(prevPassword)) {
-            return null;
-        } else {
-            member.setPassword(newPassword);
-        }
-        return memberRepository.save(member);
     }
 
 }
