@@ -71,9 +71,14 @@ public class MemberController {
 
     @PatchMapping("/members")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public Member changePassword(@RequestBody Map<String, Object> body) {
+    public Member changePassword(@RequestBody Map<String, Object> body) throws Exception {
         Member member = memberRepository.findByUsername(body.get("username").toString());
-        member.setPassword(passwordEncoder.encode(body.get("password").toString()));
+        if (passwordEncoder.matches(body.get("prevPassword").toString(), member.getPassword())) {
+            member.setPassword(passwordEncoder.encode(body.get("newPassword").toString()));
+        } else {
+            throw new Exception("Previous password not match");
+        }
+        
         return memberRepository.save(member);
     }
 
