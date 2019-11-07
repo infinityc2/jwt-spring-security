@@ -1,11 +1,17 @@
 package com.security.secure.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,7 +37,12 @@ public class Member {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne
-    public Role role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "MEMBER_ROLES", 
+        joinColumns = { @JoinColumn(name = "MEMBER_ID") },
+        inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") }
+    )
+    private Set<Role> roles;
 
 }
