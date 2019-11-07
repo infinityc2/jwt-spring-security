@@ -1,11 +1,14 @@
 package com.security.secure.config;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.security.secure.entity.Member;
 import com.security.secure.repository.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +27,15 @@ public class MemberDetailsService implements UserDetailsService {
         if (member == null) {
             throw new UsernameNotFoundException("Username '" + username + "' not found");
         }
-        return new User(member.getUsername(), member.getPassword(), new ArrayList<>());
+        return new User(member.getUsername(), member.getPassword(), getAuthority(member));
+    }
+
+    private Set<SimpleGrantedAuthority> getAuthority(Member member) {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        member.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
+        });
+        return authorities;
     }
     
 }
