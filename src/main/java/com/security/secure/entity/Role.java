@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Role {
     private Long id;
 
     @NotNull
+    @Pattern(regexp = "^[A-Z]+$")
     @Column(unique = true, name = "role")
     private String role;
     
