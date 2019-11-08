@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,13 +32,17 @@ public class Member {
     private Long id;
 
     @NotNull
+    @Size(min = 8)
+    @Pattern(regexp = "^[a-zA-Z0-9]+$")
     @Column(unique = true, name = "username")
     private String username;
 
     @NotNull
+    @Size(min = 8)
     @Column(name = "password")
     private String password;
 
+    @Size(min = 1)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "MEMBER_ROLES", 
