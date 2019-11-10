@@ -67,8 +67,8 @@ public class FileStorageController {
         return fileStorageService.getFile(id);
     }
 
-    @GetMapping("/image/{id}")
-    public ResponseEntity<InputStreamResource> displayImage(@PathVariable Long id) throws FileNotFoundException {
+    @GetMapping("/preview/{id}")
+    public ResponseEntity<InputStreamResource> preview(@PathVariable Long id) throws FileNotFoundException {
         FileStorage fileStorage = fileStorageService.getFile(id);
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(fileStorage.getFileType()))
                 .body(new InputStreamResource(new ByteArrayInputStream(fileStorage.getData())));
