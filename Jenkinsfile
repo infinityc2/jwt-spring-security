@@ -1,6 +1,8 @@
 pipeline {
     agent { label 'java8' }
-    environment { }
+    environment { 
+        dockerImage = ''
+    }
 
     stages {
         stage('checkout') {
