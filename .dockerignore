@@ -1,0 +1,10 @@
+.travis.yml
+.Jenkinsfile
+
+# IDE
+.vscode
+.setting
+
+# README
+README.md
+HELP.md

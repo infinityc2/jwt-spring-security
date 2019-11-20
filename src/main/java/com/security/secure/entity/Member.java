@@ -58,7 +58,7 @@ public class Member {
     @Size(min = 1)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-        name = "MEMBER_ROLES", 
+        name = "MEMBER_ROLES",
         joinColumns = { @JoinColumn(name = "MEMBER_ID") },
         inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") }
     )

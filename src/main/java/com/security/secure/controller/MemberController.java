@@ -99,6 +99,7 @@ public class MemberController {
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         Map<String, Object> authenticationResponse = new HashMap<>();
         authenticationResponse.put("jwt", jwt);
+        authenticationResponse.put("role", userDetails.getAuthorities());
         return ResponseEntity.ok(authenticationResponse);
     }
 

@@ -26,11 +26,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	compile('javax.xml.bind:jaxb-api:2.3.0')
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testCompile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
+	testCompile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version: '3.141.59'
+	testCompile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '3.141.59'
 }
 
 jacocoTestReport {
