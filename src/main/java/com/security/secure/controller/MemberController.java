@@ -98,8 +98,7 @@ public class MemberController {
         final UserDetails userDetails = memberDetailsService.loadUserByUsername(authenticationRequest.get("username").toString());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         Map<String, Object> authenticationResponse = new HashMap<>();
-        authenticationResponse.put("jwt", jwt);
-        authenticationResponse.put("role", userDetails.getAuthorities());
+        authenticationResponse.put("token", jwt);
         return ResponseEntity.ok(authenticationResponse);
     }
 
