@@ -31,26 +31,12 @@ jobs:
   deploy:
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_EMAIL: ${{ secret.HEROKU_EMAIL }}
+      HEROKU_APP: ${{ secret.HEROKU_APP }}
 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Heroku
-      uses: actions/heroku@master
-      with:
-        secrets: ${{ secrets.HEROKU_API_KEY }}
-    - name: Env Set up
-      run: |+
-        cat >~/.netrc <<EOF
-        machine api.heroku.com
-            login $HEROKU_EMAIL
-            password $HEROKU_API_KEY
-        machine git.heroku.com
-            login $HEROKU_EMAIL
-            password $HEROKU_API_KEY
-        EOF
     - name: Remote Set up
       run: heroku git:remote -a $(basename $GITHUB_REPOSITORY)
     - name: Push
-      run: git push heroku HEAD:refs/heads/master
+      run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
