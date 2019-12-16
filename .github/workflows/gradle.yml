@@ -9,7 +9,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    needs: test
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.8
@@ -19,7 +19,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
   test:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@1
     - name: Set up JDK 1.8
@@ -29,10 +29,28 @@ jobs:
     - name: Test with Gradle
       run: ./gradlew test
   deploy:
-    runs-on: [ubuntu-latest]
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_EMAIL: ${{ secret.HEROKU_EMAIL }}
+
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Set up Heroku
       uses: actions/heroku@master
       with:
-        secrets: 2e9c4210-3350-47c7-ba74-eda8472323d8
+        secrets: ${{ secrets.HEROKU_API_KEY }}
+    - name: Env Set up
+      run: |+
+        cat >~/.netrc <<EOF
+        machine api.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+        machine git.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+        EOF
+    - name: Remote Set up
+      run: heroku git:remote -a $(basename $GITHUB_REPOSITORY)
+    - name: Push
+      run: git push heroku HEAD:refs/heads/master
