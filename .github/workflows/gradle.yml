@@ -39,4 +39,4 @@ jobs:
     - name: Remote Set up
       run: heroku git:remote -a $(basename $GITHUB_REPOSITORY)
     - name: Push
-      run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
+      run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP.git origin/master:master
