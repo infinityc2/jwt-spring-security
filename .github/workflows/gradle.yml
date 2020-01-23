@@ -28,15 +28,15 @@ jobs:
         java-version: 1.8
     - name: Test with Gradle
       run: ./gradlew test
-  deploy:
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP: ${{ secret.HEROKU_APP }}
+  # deploy:
+  #   env:
+  #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #     HEROKU_APP: ${{ secret.HEROKU_APP }}
 
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Remote Set up
-      run: heroku git:remote -a $(basename $GITHUB_REPOSITORY)
-    - name: Push
-      run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP.git origin/master:master
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v1
+  #   - name: Remote Set up
+  #     run: heroku git:remote -a $(basename $GITHUB_REPOSITORY)
+  #   - name: Push
+  #     run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
